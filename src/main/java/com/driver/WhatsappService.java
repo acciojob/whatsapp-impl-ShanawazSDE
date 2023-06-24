@@ -7,8 +7,8 @@ import java.util.*;
 @Service
 public class WhatsappService {
 
-    private static int groupNo = 1;
-    private static int msgNo = 1;
+    private  int groupNo = 1;
+    private  int msgNo = 1;
     
     WhatsappRepository whatsappRepository = new WhatsappRepository();
     
@@ -21,6 +21,7 @@ public class WhatsappService {
 
     public Group createGroup(List<User> users) {
         Group group = new Group();
+
         if(users.size() > 2) {
             group.setName("Group " + groupNo + "");
             groupNo++;
