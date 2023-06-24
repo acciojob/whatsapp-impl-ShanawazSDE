@@ -57,6 +57,8 @@ public class WhatsappService {
             if(start.before(msg.getTimestamp()) && end.after(msg.getTimestamp()))
                 curatedMsg.add(msg);
         }
+        if(k > curatedMsg.size())
+            throw new RuntimeException("K is greater than the number of messages");
         curatedMsg.sort(new Comparator<Message>() {
             @Override
             public int compare(Message o1, Message o2) {

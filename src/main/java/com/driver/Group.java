@@ -7,6 +7,8 @@ public class Group {
     private int numberOfParticipants;
 
     public Group() {
+        this.name = "";
+        this.numberOfParticipants = 0;
     }
 
     public Group(String name, int numberOfParticipants) {

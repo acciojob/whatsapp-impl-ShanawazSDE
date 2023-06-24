@@ -43,7 +43,7 @@ public class WhatsappRepository {
 
 
     public void createGroup(Group group, List<User> users) {
-        groupUserMap.put(group,users);
+        groupUserMap.computeIfAbsent(group, g -> new ArrayList<>()).addAll(users);
         adminMap.put(group,users.get(0));
     }
 
@@ -98,25 +98,26 @@ public class WhatsappRepository {
 
         for(Map.Entry<Group,List<User>> entry : groupUserMap.entrySet()){
             List<User> users = entry.getValue();
-
+            Group group = entry.getKey();
             ListIterator<User> itr = users.listIterator();
             while(itr.hasNext()){
                 User currUser = itr.next();
                 if(currUser.getMobile().equals(user.getMobile())){
-                    if(adminMap.get(entry.getKey()).equals(currUser))
+                    if(adminMap.get(group).equals(currUser))
                         throw new RuntimeException("Cannot remove admin");
                     itr.remove();
-
+                    group.setNumberOfParticipants(groupUserMap.get(group).size());
 
                     //delete all messages of the user from the group
-                    List<Message> messages = groupMessageMap.get(entry.getKey());
+                    List<Message> messages = groupMessageMap.get(group);
                     ListIterator<Message> msgItr = messages.listIterator();
                     while (msgItr.hasNext()){
                         Message msg = msgItr.next();
                         if(senderMap.get(msg).getMobile().equals(currUser.getMobile()))
                             msgItr.remove();
                     }
-                    return groupUserMap.get(entry.getKey()).size() + groupMessageMap.get(entry.getKey()).size() + getMessageCountOfAllGroups();
+
+                    return groupUserMap.get(group).size() + groupMessageMap.get(group).size() + getMessageCountOfAllGroups();
 
 
                 }
