@@ -1,7 +1,10 @@
 package com.driver;
 
+import org.springframework.stereotype.Service;
+
 import java.util.*;
 
+@Service
 public class WhatsappService {
 
     private static int groupNo = 1;
@@ -31,7 +34,7 @@ public class WhatsappService {
     }
 
     public int createMessage(String content) {
-        Message msg = new Message(msgNo,content,new Date());
+        Message msg = new Message(msgNo,content);
         msgNo++;
         whatsappRepository.createMessage(msg);
         return msgNo-1;
