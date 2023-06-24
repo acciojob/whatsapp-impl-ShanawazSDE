@@ -34,6 +34,7 @@ public class WhatsappService {
     }
 
     public int createMessage(String content) {
+        System.out.println("MESSAGE NO "+msgNo );
         Message msg = new Message(msgNo,content);
         msgNo++;
         whatsappRepository.createMessage(msg);
